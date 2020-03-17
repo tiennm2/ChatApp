@@ -1,8 +1,5 @@
-var mongoose = require('mongoose');
-const timestamps = require('mongoose-timestamp');
-var Schema = mongoose.Schema;
-// require('./user');
-
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 var conversationSchema = new Schema({
         participants: [
             {
@@ -19,4 +16,6 @@ var conversationSchema = new Schema({
     }
 );
 
-module.exports = mongoose.model('Conversation', conversationSchema);
+const Conversation = mongoose.model('Conversation', conversationSchema);
+
+module.exports = Conversation;

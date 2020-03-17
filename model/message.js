@@ -1,22 +1,20 @@
 var mongoose = require('mongoose');
 const timestamps = require('mongoose-timestamp');
 var Schema = mongoose.Schema;
-// require('./user');
-// require('./conversation');
+require('./user');
+require('./conversation');
 
 var messageSchema = new Schema({
-        userId: [
+        userId:
             {
                 type: Schema.Types.ObjectId,
                 ref: 'User'
-            }
-        ],
-        conversationId: [
+            },
+        conversationId:
             {
                 type: Schema.Types.ObjectId,
                 ref: 'Conversation'
-            }
-        ],
+            },
         body: {
             type: String
         }

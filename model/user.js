@@ -1,6 +1,5 @@
-var mongoose = require('mongoose');
-const timestamps = require('mongoose-timestamp');
-var Schema = mongoose.Schema;
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
 var userSchema = new Schema({
         firstname: String,
@@ -19,5 +18,6 @@ var userSchema = new Schema({
         }
     }
 );
+const User = mongoose.model('User', userSchema);
 
-module.exports = mongoose.model('User', userSchema);
+module.exports = User;
