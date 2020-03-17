@@ -23,34 +23,6 @@ mongoose.connection.on("connected",(err,res) => {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-const User = require('./model/user');
-const Conversation = require('./model/conversation');
-const Message = require('./model/message');
-// User.create({
-//     _id: new mongoose.Types.ObjectId(),
-//     firstname: 'Tien',
-//     lastname: 'Nguyen',
-//     email: 'manhtien@gamil.com',
-//     password: '123456789'
-// });
-// Conversation.create({
-//     participants: [
-//         '5e6f3ba125e45f567e90c1b2'
-//     ],
-// });
-Message.create({
-    userId: [
-        '5e6f3ba125e45f567e90c1b2'
-    ],
-    conversationId: [
-        '5e6f4f080f354f6215d4554f'
-    ],
-    body: 'helllo Nguyen Manh Tien'
-});
-
-
-
-
 app.use(express.static("public"));
 app.set("view engine", "ejs");
 app.set("views", './view');
