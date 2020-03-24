@@ -1,28 +1,45 @@
-$(document).ready(function(){
+$(document).ready(function () {
     var socket = io.connect();
 
-    $('.chat_head').click(function(){
+    $('.chat_head').click(function () {
         $('.chat_body').slideToggle('slow');
     });
-    $('.msg_head').click(function(){
+    $('.conversation_head').click(function () {
+        $('.conversation_body').slideToggle('slow');
+    });
+    $('.msg_head').click(function () {
         $('.msg_wrap').slideToggle('slow');
     });
-    $('.close').click(function(){
+    $('.close').click(function () {
         $('.msg_box').hide();
     });
-    $('#setNick').submit(function(){
+
+    $('.btn-add-group').on('click', function () {
+        let user_id = $("#user_id").val().split(",");
+        // console.log($('#user_id').val());
+        if (user_id == null || user_id == "") {
+            $('.error').html('Please enter the user id');
+        }else{
+            socket.emit('join-chat', user_id, function (data) {
+
+            });
+            $('#user_id').tagsinput('removeAll');
+        }
+
+    });
+    $('#setNick').submit(function () {
         // 	e.preventDefault();
         // if ($('#nickname').val() == null || $('#nickname').val() == ""){
         // 	$('#nickErorr').html('Ban chua nhap tai khoan');
         // }else{
-        socket.emit('new user', $('#nickName').val(), function(data){
-            if (data){
+        socket.emit('new user', $('#nickName').val(), function (data) {
+            if (data) {
                 console.log('status Ok');
 
                 $('#nickWrap').hide();
 
                 $('.chat_box').show();
-            }else{
+            } else {
                 $('#nickErorr').html('Tai khoan da duoc su dung. Vui long dien tai khoan khac');
             }
         });
@@ -30,8 +47,8 @@ $(document).ready(function(){
         return false;
     });
 
-    function usernameClick(){
-        $('.user').click(function(){
+    function usernameClick() {
+        $('.user').click(function () {
             console.log('Hello');
             console.log($(this).text()); // User name
 
@@ -40,20 +57,21 @@ $(document).ready(function(){
             socket.emit('open-chatbox', $(this).text());
         });
     }
+
     usernameClick();
 
-    socket.on('usernames', function(data){
+    socket.on('usernames', function (data) {
         console.log(data);
         var html = '';
-        for (i=0; i<data.length; i++){
-            html +='<div class="user" name="'+ data[i]+'">'+ data[i]+'</div>';
+        for (i = 0; i < data.length; i++) {
+            html += '<div class="user" name="' + data[i] + '">' + data[i] + '</div>';
         }
 
         console.log(html);
         $('.chat_body').html(html);
         usernameClick();
     });
-    socket.on('openbox', function(data){
+    socket.on('openbox', function (data) {
         $('.msg_box').show();
         $('#box_name').html(data.nick);
 
@@ -74,7 +92,7 @@ $(document).ready(function(){
 // 			');
 
     });
-    $('textarea').keypress(function(e){
+    $('textarea').keypress(function (e) {
         // e.preventDefault();
 
         if (e.keyCode == 13) {
@@ -84,18 +102,21 @@ $(document).ready(function(){
         }
     });
 
-    socket.on('new message', function(data){
+    socket.on('new message', function (data) {
 
-        console.log('Gui tu '+data.nick);
-        console.log('Gui toi '+data.sendto);
-        if (data.nick == $('#box_name').text() ){
-            $('<div class="msg_b"><b>'+data.nick+': </b>'+data.msg+'</div>').insertBefore('.msg_push');
+        console.log('Gui tu ' + data.nick);
+        console.log('Gui toi ' + data.sendto);
+        if (data.nick == $('#box_name').text()) {
+            $('<div class="msg_b"><b>' + data.nick + ': </b>' + data.msg + '</div>').insertBefore('.msg_push');
             $('.msg_body').scrollTop($('.msg_body')[0].scrollHeight);
-        }else{
-            $('<div class="msg_a"><b>'+data.nick+': </b>'+data.msg+'</div>').insertBefore('.msg_push');
+        } else {
+            $('<div class="msg_a"><b>' + data.nick + ': </b>' + data.msg + '</div>').insertBefore('.msg_push');
             $('.msg_body').scrollTop($('.msg_body')[0].scrollHeight);
         }
 
+    });
+    $('#user_id').tagsinput({
+        trimValue: true
     });
 
 });

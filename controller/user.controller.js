@@ -1,14 +1,11 @@
 const User = require('../model/user');
 
 function getUser(req, res){
-    User.find().exec((err, result) => {
-        if(err){
-            res.json(err);
+    User.find(function (err, result) {
+        if (err){
+            res.send(err);
         }
-        res.json({
-            status: 'success',
-            data: result
-        })
+        res.send(result);
     })
 }
 

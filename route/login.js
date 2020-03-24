@@ -5,6 +5,9 @@ const jwtSecret = require('../config/jwtConfig');
 const User = require('../model/user');
 
 module.exports = app => {
+    app.get('/login', (req, res) => {
+        res.render('login');
+    });
     app.post('/login', (req, res, next) => {
         passport.authenticate('login', (err, users, info) => {
             if (err) {
@@ -27,14 +30,16 @@ module.exports = app => {
                         const token = jwt.sign({ id: users._id }, jwtSecret.secret, {
                             expiresIn: 60 * 60,
                         });
-                        res.header('auth-token', token);
-                        res.status(200).send({
-                            auth: true,
-                            token,
-                            message: 'user found & logged in',
-                        });
+                        // res.header('auth-token', token);
+                        // res.status(200).send({
+                        //     auth: true,
+                        //     token,
+                        //     message: 'user found & logged in',
+                        // });
+                        res.redirect('/home');
                     });
                 });
+
             }
         })(req, res, next);
     });

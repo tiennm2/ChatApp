@@ -1,6 +1,7 @@
 const express = require('express');
 const passport = require('passport');
 const router = express.Router();
+const userController = require('../controller/user.controller');
 
 //register
 router.route('/register')
@@ -22,4 +23,7 @@ router.route('/login')
         failureRedirect: '/user/login',
         failureFlash: true }));
 
+
+//get user
+router.get('/', userController.getUser);
 module.exports = router;
